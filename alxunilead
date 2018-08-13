@@ -1,0 +1,31 @@
+public class ALXLead {
+@AuraEnabled
+    public static void saveLead(String firstName,String lastName,String email, String leadSource, String infoAbout, String offerInt){ 
+        Lead newL = new Lead(); 
+        List<Lead> LeadList = new List<Lead>();
+            if(email!=''){
+                LeadList = [SELECT Id, LastName, FirstName, Email, LeadSource, Offerings_Interested__c, Information_about__c
+                            FROM Lead WHERE Email=: email];
+            }   System.debug('LeadList____ '+LeadList.size());      
+                if(LeadList.size()>=1){
+                    newL.Id = LeadList[0].id;
+                    newL.FirstName = firstName;
+                    newL.LastName = lastName;
+                    newL.LeadSource = leadSource;
+                    newL.Offerings_Interested__c = offerInt;
+                    newL.Information_about__c = infoAbout;
+                    newl.Lead_Type__c = 'ALX Website';
+                    newl.Company = 'ALX';
+                } else {
+                    newL.FirstName = firstName;
+                    newL.LastName = lastName;
+                    newL.Email = email;
+                    newL.LeadSource = leadSource;
+                    newL.Offerings_Interested__c = offerInt;
+                    newL.Information_about__c = infoAbout; 
+                    newl.Lead_Type__c = 'ALX Website';
+                    newl.Company = 'ALX';
+                }
+                    upsert newL;
+    }
+}
