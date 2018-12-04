@@ -1,0 +1,31 @@
+function updateRequiredMessage() 
+                    {
+                        var errorLabel = '<apex:outputText value="{!$Label.You_must_enter_a_value}"/>';
+                        j$(".required").each(function() {
+                            if (j$(this).val() == "") {
+                                if (!j$(this).hasClass("error")) {
+                                    j$(this).addClass("error");
+
+                                    if (j$(this).parent().hasClass("requiredInput")) {
+                                        j$(this).parent().after("<div class='errorMsg'><strong>Error:</strong> "+errorLabel+"</div>");
+                                    } else {
+                                        if (j$(this).siblings().length > 0) {
+                                            j$(this).siblings(":last").after("<div class='errorMsg'><strong>Error:</strong> "+errorLabel+"</div>");
+                                        } else {
+                                            j$(this).after("<div class='errorMsg'><strong>Error:</strong> "+errorLabel+"</div>");
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (j$(this).hasClass("error")) {
+                                    j$(this).removeClass("error");
+
+                                    if (j$(this).parent().hasClass("requiredInput")) {
+                                        j$(this).parent().siblings(".errorMsg").remove();
+                                    } else {
+                                        j$(this).siblings(".errorMsg").remove();
+                                    }
+                                }
+                            }
+                        });
+                    }
